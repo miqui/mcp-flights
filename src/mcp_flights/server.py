@@ -28,18 +28,24 @@ mcp = FastMCP(
     name="mcp-flights",
     instructions=(
         "Use this server to search flights through SerpAPI's Google Flights engine. "
-        "Provide airport IATA codes and ISO dates."
+        "Provide airport IATA codes, ISO dates, and optional filters like stops, bags, "
+        "time windows, airline includes/excludes, and price ceiling."
     ),
 )
 
 
 @mcp.tool(
     name="search_google_flights",
-    description="Search Google Flights via SerpAPI using IATA airport codes and ISO dates.",
+    description=(
+        "Search Google Flights via SerpAPI using IATA airport codes, ISO dates, and "
+        "optional filters such as stops, bags, airline includes/excludes, time windows, "
+        "layover duration, price ceiling, and sort order."
+    ),
 )
 async def search_google_flights(request: FlightSearchRequest) -> FlightSearchResult:
     params: dict[str, Any] = request.model_dump(exclude_none=True)
-    params["deep_search"] = str(params["deep_search"]).lower()
+    for key in ("deep_search", "exclude_basic"):
+        params[key] = str(params[key]).lower()
 
     payload = await get_client().search_google_flights(params)
     return FlightSearchResult(
