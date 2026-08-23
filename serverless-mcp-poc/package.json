@@ -1,0 +1,28 @@
+{
+  "name": "mcp-flights-serverless-poc",
+  "version": "0.1.0",
+  "private": true,
+  "description": "POC: MCP-on-AWS-Lambda via Serverless Framework v4 mcp.servers, exposing a mocked flight-search tool surface derived from mcp-flights. No real AWS/SerpAPI calls; local validation only.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "sls:print": "serverless print",
+    "sls:package": "serverless package"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.0.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "^2.0.0",
+    "@types/node": "^22.10.0",
+    "serverless": "^4.41.0",
+    "typescript": "^5.7.0",
+    "vitest": "^2.1.0"
+  }
+}
