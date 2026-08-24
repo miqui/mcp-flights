@@ -1,0 +1,25 @@
+# Serverless Framework v4 POC: MCP server on AWS Lambda
+#
+# This config is for LOCAL VALIDATION ONLY (see README.md).
+# `serverless print` and `serverless package` are safe (no AWS calls).
+# `serverless deploy` is NOT run as part of this POC — see README's
+# clearly marked manual-only deploy section.
+service: mcp-flights-poc
+
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+  # No IAM roles, no extra resources, no secrets are declared for this POC.
+
+# Serverless Framework v4's native MCP-on-Lambda integration: each entry under
+# mcp.servers points at a TypeScript module whose default export is the
+# object returned by createMcpHandler(...). Framework auto-bundles the module
+# with esbuild and provisions an HTTPS route + Lambda entry that bridges to
+# the SDK's web-standard fetch handler.
+mcp:
+  servers:
+    flights:
+      server: src/server.ts
